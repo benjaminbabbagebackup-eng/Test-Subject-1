@@ -1,0 +1,27 @@
+name: build-os
+on:
+  schedule:
+    - cron: '0 0 * * *' # Build daily to keep OGC kernel current
+  push:
+    branches:
+      - main
+  workflow_dispatch: # Allows you to manual start the build on GitHub website
+
+jobs:
+  bluebuild:
+    name: Build Custom Image
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+      id-token: write
+    steps:
+      - name: Build Custom Image
+        uses: blue-build/github-action@v1
+        with:
+          recipe: 'recipes/recipe.yml'
+          registry_token: ${{ github.token }}
+          generate_iso: true
+          # THE "FIX IT" FLAGS
+          rechunk: false              # Skips the signing requirement
+          maximize_build_space: true  # Necessary for heavy OGC kernels
