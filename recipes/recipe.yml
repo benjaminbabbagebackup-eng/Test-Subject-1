@@ -1,45 +1,64 @@
----
 # yaml-language-server: $schema=https://schema.blue-build.org/recipe-v1.json
-# image will be published to ghcr.io/<user>/<name>
-name: template
-# description will be included in the image's metadata
-description: This is my personal OS image.
+name: test-subject-601
+description: Fedora KDE + OGC Kernel + Disk & File Management Suite
+base-image: ghcr.io/ublue-os/kinoite-main
+image-version: latest
 
-# the base image to build on top of (FROM) and the version tag to use
-base-image: ghcr.io/ublue-os/silverblue-main
-image-version: 42 # latest is also supported if you want new updates ASAP
-
-# module configuration, executed in order
-# you can include multiple instances of the same module
 modules:
-  - type: files
-    files:
-      - source: system
-        destination: / # copies files/system/* (* means everything inside it) into your image's root folder /
-
-  - type: dnf
+  - type: rpm-ostree
     repos:
-      copr:
-        - atim/starship
+      - https://copr.fedorainfracloud.org/coprs/g/open-gaming-collective/kernel/repo/fedora-%OS_VERSION%/open-gaming-collective-kernel-fedora-%OS_VERSION%.repo
     install:
-      packages:
-        - micro
-        - starship
-    remove:
-      packages:
-        # example: removing firefox (in favor of the flatpak)
-        # "firefox" is the main package, "firefox-langpacks" is a dependency
-        - firefox
-        - firefox-langpacks # also remove firefox dependency (not required for all packages, this is a special case)
+      # OGC Kernel & AMD Vulkan
+      - kernel-ogc
+      - mesa-vulkan-drivers
+      - mesa-vulkan-drivers.i686
+      # DISK MANAGEMENT ESSENTIALS
+      - partitionmanager
+      - gparted
+      - gnome-disk-utility
+      - btrfs-progs
+      - smartmontools
+      # Gaming Suite (RPM versions)
+      - vkbasalt
+      - mangohud
+      - gamemode
+      - lutris
+      - goverlay
+      - gamescope
+    override-replace:
+      # This swaps the standard Fedora kernel for the OGC optimized one
+      - from-repo: https://copr.fedorainfracloud.org/coprs/g/open-gaming-collective/kernel/repo/fedora-%OS_VERSION%/open-gaming-collective-kernel-fedora-%OS_VERSION%.repo
+        packages:
+          - kernel
+          - kernel-core
+          - kernel-modules
+          - kernel-modules-core
+          - kernel-modules-extra
 
   - type: default-flatpaks
+    notify: true
     configurations:
-      - notify: true # Send notification after install/uninstall is finished (true/false)
-        scope: system
-        # If no repo information is specified, Flathub will be used by default
-        install: # system flatpaks we want all users to have and not remove
-          - org.mozilla.firefox
-          - org.gnome.Loupe
-      - scope: user # Also add Flathub user repo, but no user packages
+      - scope: system
+        install:
+          # APPS & GAMING
+          - com.valvesoftware.Steam
+          - com.heroicgameslauncher.hgl
+          - dev.vencord.Vesktop
+          - net.davidotek.pupgui2 # ProtonUp-Qt
+          - com.vysp3r.ProtonPlus # ProtonPlus
+          - io.github.radiolamp.mangojuice # MangoJuice added here
+          # FILE MANAGEMENT
+          - org.kde.filelight
+          - org.kde.ark
+          - org.kde.kfind
+          - com.github.qarmin.czkawka
 
-  - type: signing # this sets up the proper policy & signing files for signed images to work fully
+  - type: script
+    scripts:
+      - |
+        #!/bin/bash
+        # Set Power Profile to Balanced
+        powerprofilesctl set balanced
+        # Optimize disk I/O for gaming
+        echo mq-deadline > /sys/block/sda/queue/scheduler 2>/dev/null || true
