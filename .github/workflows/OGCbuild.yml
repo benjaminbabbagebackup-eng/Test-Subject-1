@@ -19,7 +19,7 @@ jobs:
       - name: Build Custom Image
         uses: blue-build/github-action@v1
         with:
-          recipe: 'recipes/recipe.yml'
+          recipe: 'recipe.yml'
           registry_token: ${{ github.token }}
           generate_iso: true
           rechunk: true
