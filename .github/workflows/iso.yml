@@ -17,10 +17,9 @@ jobs:
       - name: Generate ISO
         uses: blue-build/github-action@v1
         with:
-          # Use the 'generate-iso' subcommand via the CLI
           cli_version: latest
           recipe: 'recipes/recipe.yml'
-          # This specifies the remote image to turn into an ISO
-          # Replace with your actual registry path
           registry: 'ghcr.io/benjaminbabbagebackup-eng'
-          build_opts: '--no-sign'
+          # We provide these even if we aren't using them to stop the "missing key" error
+          registry_token: ${{ github.token }}
+          cosign_private_key: ${{ secrets.SIGNING_SECRET }}
