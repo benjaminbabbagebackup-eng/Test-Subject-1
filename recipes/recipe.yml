@@ -50,9 +50,7 @@ modules:
           - io.github.flattool.Warehouse
           - com.github.tchx84.Flatseal
 
-  # REPLACED THE SCRIPT MODULE WITH THIS SIMPLE RUN COMMAND
-  - type: containerfile
-    containerfiles:
-      - |
-        RUN powerprofilesctl set balanced && \
-            echo mq-deadline > /sys/block/sda/queue/scheduler 2>/dev/null || true
+  - type: inline
+    bash:
+      - "powerprofilesctl set balanced"
+      - "echo mq-deadline > /sys/block/sda/queue/scheduler 2>/dev/null || true"
