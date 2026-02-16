@@ -14,14 +14,14 @@ jobs:
     permissions:
       contents: read
       packages: write
-      id-token: write
+      id-token: write  
     steps:
       - name: Build Custom Image
         uses: blue-build/github-action@v1
+        env:
+          COSIGN_EXPERIMENTAL: "1"   # ← this enables keyless mode in cosign
         with:
           recipe: 'recipes/recipe.yml'
           registry_token: ${{ github.token }}
           generate_iso: true
-          # This finally connects the dots
-          cosign_private_key: ${{ secrets.SIGNING_SECRET }}
           rechunk: true
