@@ -1,6 +1,6 @@
 # yaml-language-server: $schema=https://schema.blue-build.org/recipe-v1.json
 name: test-subject-1
-description: Fedora KDE + OGC Kernel + Disk & File Management Suite
+description: Fedora KDE Test
 base-image: ghcr.io/ublue-os/kinoite-main
 image-version: latest
 
@@ -9,15 +9,13 @@ modules:
     repos:
       # Starship: This works with Fedora 43 via the version variable
       - https://copr.fedorainfracloud.org/coprs/atim/starship/repo/fedora-%OS_VERSION%/atim-starship-fedora-%OS_VERSION%.repo
-      
-      # OGC: Explicitly set to fedora-42 to avoid the 404 error on their server
-      - https://copr.fedorainfracloud.org/coprs/g/open-gaming-collective/kernel/repo/fedora-42/open-gaming-collective-kernel-fedora-42.repo
     install:
       - starship
-      # OGC Kernel & AMD Vulkan
-      - kernel-ogc
+      # AMD Vulkan
       - mesa-vulkan-drivers
       - mesa-vulkan-drivers.i686
+      - libva-utils
+      - vdpauinfo
       # DISK MANAGEMENT ESSENTIALS
       - partitionmanager
       - gparted
@@ -46,19 +44,15 @@ modules:
     configurations:
       - scope: system
         install:
-          # APPS & GAMING
           - com.valvesoftware.Steam
           - com.heroicgameslauncher.hgl
           - dev.vencord.Vesktop
-          - net.davidotek.pupgui2 # ProtonUp-Qt
+          - net.davidotek.pupgui2
           - com.vysp3r.ProtonPlus
           - io.github.radiolamp.mangojuice
           - com.github.Matoking.protontricks
-          # TOOLS
           - com.github.qarmin.czkawka
           - io.github.flattool.Warehouse
-          - io.github.kolunmi.Bazaar
-          - com.ranfdev.DistroShelf
           - com.github.tchx84.Flatseal
 
   - type: script
