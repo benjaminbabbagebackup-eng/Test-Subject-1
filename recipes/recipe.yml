@@ -51,4 +51,3 @@ modules:
           - com.github.tchx84.Flatseal
           - org.gimp.GIMP
           - org.libreoffice.LibreOffice
-          - com.motrix.Motrix
