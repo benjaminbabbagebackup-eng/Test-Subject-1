@@ -49,8 +49,6 @@ modules:
           - com.github.qarmin.czkawka
           - io.github.flattool.Warehouse
           - com.github.tchx84.Flatseal
-
-  - type: inline
-    bash:
-      - "powerprofilesctl set balanced"
-      - "echo mq-deadline > /sys/block/sda/queue/scheduler 2>/dev/null || true"
+          - org.gimp.GIMP
+          - org.libreoffice.LibreOffice
+          - com.motrix.Motrix
