@@ -22,6 +22,7 @@ jobs:
           recipe: 'recipes/recipe.yml'
           registry_token: ${{ github.token }}
           generate_iso: true
-          # THE "FIX IT" FLAGS
-          rechunk: false              # Skips the signing requirement
-          maximize_build_space: true  # Necessary for heavy OGC kernels
+          # FORCE NO-SIGNING
+          rechunk: false
+          cosign_private_key: "" 
+          is_cosign_keyless: false
