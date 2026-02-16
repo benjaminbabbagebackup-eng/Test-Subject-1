@@ -1,0 +1,25 @@
+name: Generate ISO
+on:
+  workflow_dispatch: # Allows you to run this manually from the Actions tab
+  schedule:
+    - cron:  '0 0 * * 0' # Optional: Runs every Sunday at midnight
+
+jobs:
+  generate-iso:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      packages: read
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Generate ISO
+        uses: blue-build/github-action@v1
+        with:
+          # Use the 'generate-iso' subcommand via the CLI
+          cli_version: latest
+          recipe: 'recipes/recipe.yml'
+          # This specifies the remote image to turn into an ISO
+          # Replace with your actual registry path
+          registry: 'ghcr.io/benjaminbabbagebackup-eng'
