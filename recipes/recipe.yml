@@ -1,35 +1,29 @@
 # yaml-language-server: $schema=https://schema.blue-build.org/recipe-v1.json
 name: test-subject-1
-description: Fedora KDE Test
+description: Fedora 43 KDE + Native Gaming & Management Suite
 base-image: ghcr.io/ublue-os/kinoite-main
 image-version: latest
 
 modules:
   - type: rpm-ostree
     repos:
-      # Starship: This works with Fedora 43 via the version variable
       - https://copr.fedorainfracloud.org/coprs/atim/starship/repo/fedora-%OS_VERSION%/atim-starship-fedora-%OS_VERSION%.repo
     install:
       - starship
-      # AMD Vulkan
       - mesa-vulkan-drivers
       - mesa-vulkan-drivers.i686
       - libva-utils
       - vdpauinfo
-      # DISK MANAGEMENT ESSENTIALS
-      - kde-partitionmanager
+      - kde-partitionmanager 
       - gparted
       - gnome-disk-utility
       - btrfs-progs
       - smartmontools
-      # Gaming Suite
-      - vkBasalt
       - mangohud
       - gamemode
       - lutris
       - goverlay
       - gamescope
-      # Productivity & Utils
       - ark
       - filelight
       - kfind
@@ -44,6 +38,7 @@ modules:
     configurations:
       - scope: system
         install:
+          - org.freedesktop.Platform.VulkanLayer.vkBasalt
           - com.valvesoftware.Steam
           - com.heroicgameslauncher.hgl
           - dev.vencord.Vesktop
@@ -55,11 +50,9 @@ modules:
           - io.github.flattool.Warehouse
           - com.github.tchx84.Flatseal
 
-  - type: script
-    scripts:
+  # REPLACED THE SCRIPT MODULE WITH THIS SIMPLE RUN COMMAND
+  - type: containerfile
+    containerfiles:
       - |
-        #!/bin/bash
-        # Set Power Profile to Balanced
-        powerprofilesctl set balanced
-        # Optimize disk I/O for gaming
-        echo mq-deadline > /sys/block/sda/queue/scheduler 2>/dev/null || true
+        RUN powerprofilesctl set balanced && \
+            echo mq-deadline > /sys/block/sda/queue/scheduler 2>/dev/null || true
