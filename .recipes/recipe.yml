@@ -26,18 +26,19 @@ modules:
       - lutris
       - goverlay
       - gamescope
-    override-replace:
-      # This swaps the standard Fedora kernel for the OGC optimized one
-      - from-repo: https://copr.fedorainfracloud.org/coprs/g/open-gaming-collective/kernel/repo/fedora-%OS_VERSION%/open-gaming-collective-kernel-fedora-%OS_VERSION%.repo
-        packages:
-          - kernel
-          - kernel-core
-          - kernel-modules
-          - kernel-modules-core
-          - kernel-modules-extra
-
+      # Others
+      - ark
+      - filelight
+      - kfind
+      - kcalc
+      - kwrite
+      - kate
+      - gnome-disk-utility
+      - fcitx5
+      - spectacle
+      - kronometer
+ 
   - type: default-flatpaks
-    notify: true
     configurations:
       - scope: system
         install:
@@ -53,7 +54,17 @@ modules:
           - org.kde.ark
           - org.kde.kfind
           - com.github.qarmin.czkawka
-
+          - io.github.radiolamp.mangojuice
+          - com.vysp3r.ProtonPlus
+          - net.davidotek.pupgui2
+          - com.github.Matoking.protontricks
+          - io.github.flattool.Warehouse
+          - io.github.kolunmi.Bazaar
+          - com.ranfdev.DistroShelf
+          - com.github.tchx84.Flatseal
+          - dev.vencord.Vesktop
+          - com.github.qarmin.czkawka
+          
   - type: script
     scripts:
       - |
