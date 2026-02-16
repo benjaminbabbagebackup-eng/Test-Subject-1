@@ -22,8 +22,11 @@ jobs:
           recipe: 'recipes/recipe.yml'
           registry_token: ${{ github.token }}
           generate_iso: true
-          # THIS IS THE TRUE WORKING NO-SIGN COMMAND
+          # 1. This passes the raw flag you requested
           build_opts: "--no-sign"
-          # Neutralize the mandatory inputs
+          # 2. This satisfies the action's internal requirement with an empty value
           cosign_private_key: ""
+          # 3. This stops the action from trying to auto-generate a key
+          is_cosign_keyless: false
+          # 4. Bypasses the experimental rechunker that requires signing
           rechunk: false
