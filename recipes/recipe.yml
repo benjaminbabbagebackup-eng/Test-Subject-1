@@ -17,13 +17,13 @@ modules:
       - libva-utils
       - vdpauinfo
       # DISK MANAGEMENT ESSENTIALS
-      - partitionmanager
+      - kde-partitionmanager
       - gparted
       - gnome-disk-utility
       - btrfs-progs
       - smartmontools
       # Gaming Suite
-      - vkbasalt
+      - vkBasalt
       - mangohud
       - gamemode
       - lutris
