@@ -23,3 +23,4 @@ jobs:
           # This specifies the remote image to turn into an ISO
           # Replace with your actual registry path
           registry: 'ghcr.io/benjaminbabbagebackup-eng'
+          build_opts: '--no-sign'
