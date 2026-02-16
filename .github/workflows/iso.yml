@@ -18,7 +18,7 @@ jobs:
         uses: blue-build/github-action@v1
         with:
           cli_version: latest
-          recipe: 'recipes/recipe.yml'
+          recipe: 'recipe.yml'
           registry: 'ghcr.io/benjaminbabbagebackup-eng'
           # We provide these even if we aren't using them to stop the "missing key" error
           registry_token: ${{ github.token }}
