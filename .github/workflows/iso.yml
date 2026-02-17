@@ -34,5 +34,5 @@ jobs:
           recipe: 'recipe.yml'
           registry: 'ghcr.io/benjaminbabbagebackup-eng'
           # We provide these even if we aren't using them to stop the "missing key" error
-          registry_token: ${{ github.token }}
+          registry_token: ${{ secrets.GH_TOKEN }}
           cosign_private_key: ${{ secrets.SIGNING_SECRET }}
