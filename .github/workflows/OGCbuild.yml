@@ -20,7 +20,8 @@ jobs:
         uses: blue-build/github-action@v1
         with:
           recipe: 'recipe.yml'
-          registry_token: ${{ github.token }}
           generate_iso: true
           rechunk: true
+          cosign_private_key: $
+          registry_token: ${{ secrets.GH_TOKEN }}
           cosign_private_key: ${{ secrets.SIGNING_SECRET }}
