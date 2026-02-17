@@ -1,0 +1,22 @@
+name: Generate ISO
+on:
+  workflow_dispatch: # Allows you to click "Run" manually
+permissions:
+  contents: read
+  packages: write
+  id-token: write
+
+jobs:
+  build-iso:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repo
+        uses: actions/checkout@v4
+
+      - name: Build ISO
+        uses: blue-build/github-action@v1
+        with:
+          recipe: 'recipe.yml'
+          registry_token: ${{ github.token }}
+          # Explicitly tell it who you are
+          registry_username: ${{ github.repository_owner }}
