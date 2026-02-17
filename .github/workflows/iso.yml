@@ -5,7 +5,7 @@ on:
     - cron:  '0 0 * * 0' # Optional: Runs every Sunday at midnight
 
 permissions:
-  contents: read
+  contents: write
   packages: write
   id-token: write
 
@@ -36,3 +36,4 @@ jobs:
           # We provide these even if we aren't using them to stop the "missing key" error
           registry_token: ${{ secrets.GH_TOKEN }}
           cosign_private_key: ${{ secrets.SIGNING_SECRET }}
+          registry_token: ${{ github.token }}
